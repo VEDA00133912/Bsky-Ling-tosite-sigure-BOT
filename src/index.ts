@@ -1,6 +1,9 @@
 // auto-post-tk.ts
 import { AtpAgent } from '@atproto/api';
 import * as dotenv from 'dotenv';
+import express from 'express';
+import { fileURLToPath } from 'url';
+import path from 'path';
 import { generateTKText } from './generateTK.js';
 dotenv.config();
 
@@ -31,3 +34,16 @@ async function startLoop() {
 }
 
 startLoop();
+
+
+const app = express();
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+app.use(express.static(path.join(__dirname, "../public")));
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
